@@ -52,24 +52,6 @@ app.post("/students/:studentId/addresses", async (req, res) => {
   res.status(201).send("Address created");
 });
 
-// Find student by address
-app.get("/stats", async (req, res) => {
-  const data = await Student.aggregate([
-    {
-      $match: {
-        address: {
-          streetName: "Rue Marie",
-          streetNumber: "1",
-          postCode: "29000",
-          city: "Toulouse",
-        },
-      },
-    },
-  ]);
-
-  res.json(data);
-});
-
 // Start server
 app.listen(8001, () => {
   console.log("Listening");
