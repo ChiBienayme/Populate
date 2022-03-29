@@ -26,6 +26,14 @@ app.get("/", (_req, res) => {
   res.send("Populate page");
 });
 
+// Create a student: firstName, surname, address
+app.post("/students", async (req, res) => {
+  await Student.create(req.body);
+
+  res.status(201).send("Student is created");
+});
+
+
 //   Find student by ID
 app.get("/students/:studentId", async (req, res) => {
   const student = await Student.findById(req.params.studentId).populate(
@@ -35,15 +43,9 @@ app.get("/students/:studentId", async (req, res) => {
   res.json(student);
 });
 
-// Add a student: firstName, surname, address
-app.post("/students", async (req, res) => {
-  await Student.create(req.body);
-
-  res.status(201).send("Student is created");
-});
 
 // Add address by Student ID: streetName, streetNumber, postCode, city
-app.post("/students/:studentId/addresses", async (req, res) => {
+app.post("/students/:studentId/address", async (req, res) => {
   const address = await Address.create(req.body);
   await Student.findByIdAndUpdate(req.params.studentId, {
     $push: { addresses: address._id },
@@ -53,7 +55,7 @@ app.post("/students/:studentId/addresses", async (req, res) => {
 });
 
 // Start server
-app.listen(8001, () => {
+app.listen(8000, () => {
   console.log("Listening");
 });
 
